@@ -24,18 +24,20 @@ namespace ASPClicker.Services
 
         public async Task ClickButton(BaseGame game)
         {
-            game.Score += game.ClickMultiplier;
+            game.Score += game.ClickPower;
             await SaveGame(game);
         }
 
         public void PurchaseUpgrade(BaseGame game, string upgradeId)
         {
             UpgradeStore.PurchaseUpgrade(game, upgradeId);
+            game.ClickPower = game.CalculateClickPower();
         }
 
         public void PurchaseModification(BaseGame game, string modificationId)
         {
             ModificationStore.PurchaseModification(game, modificationId);
+            game.ClickPower = game.CalculateClickPower();
         }
     }
 }
