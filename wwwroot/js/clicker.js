@@ -1,4 +1,5 @@
 ﻿$(document).ready(function () {
+    updateUpgradeButtons();
     $('#clickCircle').click(function (event) {
         $.ajax({
             type: "POST",
