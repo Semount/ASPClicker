@@ -11,7 +11,7 @@
 
         public void IncreaseCost()
         {
-            Cost = (int)(Cost * CostMultiplier);
+            Cost = (Cost * CostMultiplier);
         }
     }
 }

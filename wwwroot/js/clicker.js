@@ -7,13 +7,13 @@
             type: "POST",
             url: "/BaseGame/Click",
             success: function (data) {
-                $("#scoreDisplay").text(data.score);
-                $("#pointsPerClick").text(data.clickPower);
+                $("#scoreDisplay").text(data.score.toFixed(2));
+                $("#pointsPerClick").text(data.clickPower.toFixed(2));
                 updateUpgradeButtons();
                 updateModificationButtons();
 
                 // Добавление анимации появления очков
-                var pointsPopup = $('<div class="points-popup">+' + data.clickPower + '</div>');
+                var pointsPopup = $('<div class="points-popup">+' + data.clickPower.toFixed(2) + '</div>');
                 pointsPopup.css({
                     top: event.pageY - 20,
                     left: event.pageX - 20
@@ -38,15 +38,15 @@
             url: "/BaseGame/BuyUpgrade",
             data: { upgradeId: upgradeId },
             success: function (data) {
-                $("#scoreDisplay").text(data.score);
-                $("#pointsPerClick").text(data.clickMultiplier);
+                $("#scoreDisplay").text(data.score.toFixed(2));
 
                 // Обновление количества купленных улучшений и цены улучшения
                 var countElement = $('#' + data.upgradeId + '_count');
                 countElement.text(data.count);
 
                 button.data('cost', data.cost);
-                button.siblings('.upgrade-cost').find('.cost-value').text(data.cost);
+                button.siblings('.upgrade-cost').find('.cost-value').text(data.cost.toFixed(2));
+                $("#pointsPerClick").text(data.clickMultiplier.toFixed(2));
 
                 updateUpgradeButtons();
                 updateModificationButtons();
@@ -63,11 +63,11 @@
 
         $.ajax({
             type: "POST",
-            url: "/BaseGame/PurchaseModification",
+            url: "/BaseGame/BuyModification",
             data: { modificationId: modificationId },
             success: function (data) {
-                $("#scoreDisplay").text(data.score);
-                $("#" + modificationId + "_count").text(data.modificationCount);
+                $("#scoreDisplay").text(data.score.toFixed(2));
+                $("#pointsPerClick").text(data.clickPower.toFixed(2));
 
                 updateUpgradeButtons();
                 updateModificationButtons();
@@ -79,9 +79,9 @@
     });
 
     function updateUpgradeButtons() {
-        var currentScore = parseInt($("#scoreDisplay").text());
+        var currentScore = parseFloat($("#scoreDisplay").text());
         $('.upgrade-btn').each(function () {
-            var cost = parseInt($(this).data('cost'));
+            var cost = parseFloat($(this).data('cost'));
             if (currentScore >= cost) {
                 $(this).prop('disabled', false);
             } else {
@@ -91,9 +91,9 @@
     }
 
     function updateModificationButtons() {
-        var currentScore = parseInt($("#scoreDisplay").text());
+        var currentScore = parseFloat($("#scoreDisplay").text());
         $('.modification-btn').each(function () {
-            var cost = parseInt($(this).data('cost'));
+            var cost = parseFloat($(this).data('cost'));
             if (currentScore >= cost) {
                 $(this).prop('disabled', false);
             } else {

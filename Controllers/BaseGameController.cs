@@ -62,9 +62,10 @@ namespace ASPClicker.Controllers
             return Json(new
             {
                 score = game.Score,
+                clickPower = game.ClickPower,
+                clickPowerPercentage = game.ClickPowerPercentage,
                 modificationId = modification?.Id,
                 cost = modification?.Cost,
-                count = modification?.Count
             });
         }
     }

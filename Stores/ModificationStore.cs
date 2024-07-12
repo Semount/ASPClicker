@@ -27,7 +27,7 @@ namespace ASPClicker.Stores
             if (modification != null && game.Score >= modification.Cost)
             {
                 game.Score -= modification.Cost;
-                modification.Count++;
+                game.ClickPowerPercentage += modification.ClickMultiplierPercentage;
             }
         }
 

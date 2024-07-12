@@ -20,7 +20,7 @@ namespace ASPClicker.Models
         {
             var game = new BaseGame
             {
-                Score = 0,
+                Score = 10000,
                 ClickPower = 1,
                 ClickMultiplier = 0,
                 ClickPowerPercentage = 0,
