@@ -26,7 +26,7 @@ namespace ASPClicker.Controllers
         {
             var game = await _gameService.GetOrCreateGame();
             await _gameService.ClickButton(game);
-            return Json(new { score = game.Score, clickMultiplier = game.ClickMultiplier });
+            return Json(new { score = game.Score, clickPower = game.ClickPower, clickMultiplier = game.ClickMultiplier });
         }
 
         [HttpPost]
