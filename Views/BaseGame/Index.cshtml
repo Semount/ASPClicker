@@ -1,0 +1,36 @@
+﻿@{
+    ViewData["Title"] = "Clicker";
+}
+
+@model BaseGame
+<h2>Игра-кликер</h2>
+
+<div class="container">
+    <div class="sidebar">
+        <h3>Улучшения</h3>
+        @foreach (var upgrade in Model.Upgrades)
+        {
+            <div class="upgrade-card">
+                <h4>@upgrade.Description</h4>
+                <p class="upgrade-cost">Цена: <span class="cost-value">@upgrade.Cost</span> очков</p>
+                <p>Прибыль: +@upgrade.Increment за клик</p>
+                <button id="@upgrade.Id" class="upgrade-btn" data-cost="@upgrade.Cost" data-increment="@upgrade.Increment">Купить</button>
+                <p>Куплено: <span id="@(upgrade.Id)_count">@upgrade.Count</span></p>
+            </div>
+        }
+    </div>
+    <div class="game-area">
+        <div>
+            Очки: <span id="scoreDisplay">@Model.Score</span>
+        </div>
+        <div class="click-circle" id="clickCircle"></div>
+        <div>
+            Очки за клик: <span id="pointsPerClick">@Model.ClickMultiplier</span>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/js/clicker.js"></script>
+}
