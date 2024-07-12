@@ -1,63 +1,44 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ASPClicker.Models;
 using Newtonsoft.Json;
+using ASPClicker.Services;
+using ASPClicker.Stores;
 
 namespace ASPClicker.Controllers
 {
     public class BaseGameController : Controller
     {
-        private const string GameSessionKey = "GameState";
+        private readonly IGameService _gameService;
 
-        private BaseGame GetOrCreateGame()
+        public BaseGameController(IGameService gameService)
         {
-            if (HttpContext.Session.GetString(GameSessionKey) == null)
-            {
-                var game = BaseGame.CreateNewGame();
-                SaveGame(game);
-            }
-            return GetGame();
+            _gameService = gameService;
         }
 
-        private BaseGame GetGame()
+        public async Task<IActionResult> Index()
         {
-            var gameJson = HttpContext.Session.GetString(GameSessionKey);
-            return JsonConvert.DeserializeObject<BaseGame>(gameJson);
-        }
-
-        private void SaveGame(BaseGame game)
-        {
-            var gameJson = JsonConvert.SerializeObject(game);
-            HttpContext.Session.SetString(GameSessionKey, gameJson);
-        }
-
-        public IActionResult Index()
-        {
-            var game = GetOrCreateGame();
+            var game = await _gameService.GetOrCreateGame();
             return View(game);
         }
 
         [HttpPost]
-        public IActionResult Click()
+        public async Task<IActionResult> Click()
         {
-            var game = GetGame();
-            game.Score += game.ClickMultiplier;
-            SaveGame(game);
+            var game = await _gameService.GetOrCreateGame();
+            await _gameService.ClickButton(game);
             return Json(new { score = game.Score, clickMultiplier = game.ClickMultiplier });
         }
 
         [HttpPost]
-        public IActionResult BuyUpgrade(string upgradeId)
+        public async Task<IActionResult> BuyUpgrade(string upgradeId)
         {
-            var game = GetGame();
-            var upgrade = game.Upgrades.FirstOrDefault(u => u.Id == upgradeId);
-            if (upgrade != null && game.Score >= upgrade.Cost)
-            {
-                game.Score -= upgrade.Cost;
-                game.ClickMultiplier += upgrade.Increment;
-                upgrade.Count++;
-                upgrade.IncreaseCost();
-                SaveGame(game);
-            }
+            if (string.IsNullOrEmpty(upgradeId)) return BadRequest("Upgrade ID is invalid.");
+
+            var game = await _gameService.GetOrCreateGame();
+            _gameService.PurchaseUpgrade(game, upgradeId);
+            await _gameService.SaveGame(game);
+
+            var upgrade = UpgradeStore.GetUpgrade(upgradeId);
             return Json(new
             {
                 score = game.Score,
@@ -65,6 +46,25 @@ namespace ASPClicker.Controllers
                 upgradeId = upgrade?.Id,
                 cost = upgrade?.Cost,
                 count = upgrade?.Count
+            });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> BuyModification(string modificationId)
+        {
+            if (string.IsNullOrEmpty(modificationId)) return BadRequest("Modification ID is invalid.");
+
+            var game = await _gameService.GetOrCreateGame();
+            _gameService.PurchaseModification(game, modificationId);
+            await _gameService.SaveGame(game);
+
+            var modification = ModificationStore.GetModification(modificationId);
+            return Json(new
+            {
+                score = game.Score,
+                modificationId = modification?.Id,
+                cost = modification?.Cost,
+                count = modification?.Count
             });
         }
     }

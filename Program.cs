@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using ASPClicker.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +15,11 @@ builder.Services.AddSession(options =>
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });
+
+// Register IGameService and IGameStateService
+builder.Services.AddScoped<IGameService, GameService>();
+builder.Services.AddScoped<IGameStateService, GameStateService>();
+builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
 
