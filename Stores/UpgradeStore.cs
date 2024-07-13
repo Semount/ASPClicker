@@ -21,15 +21,19 @@ namespace ASPClicker.Stores
             return upgrades.Find(u => u.Id == id);
         }
 
-        public static void PurchaseUpgrade(BaseGame game, string id)
+        public static void PurchaseUpgrade(BaseGame game, string id, double discount)
         {
             var upgrade = GetUpgrade(id);
-            if (upgrade != null && game.Score >= upgrade.Cost)
+            if (upgrade != null)
             {
-                game.Score -= upgrade.Cost;
-                upgrade.Count++;
-                upgrade.IncreaseCost();
-                game.ClickMultiplier += upgrade.Increment;
+                var discountedCost = upgrade.Cost * (1 - discount / 100);
+                if (game.Score >= discountedCost)
+                {
+                    game.Score -= discountedCost;
+                    upgrade.Count++;
+                    upgrade.IncreaseCost();
+                    game.ClickMultiplier += upgrade.Increment;
+                }
             }
         }
 
