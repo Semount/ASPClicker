@@ -2,7 +2,7 @@
     ViewData["Title"] = "Clicker";
 }
 
-@model BaseGame
+@model ASPClicker.Models.BaseGame
 <h2>Игра-кликер</h2>
 
 <div class="container">
@@ -26,7 +26,7 @@
                     <h4>@upgrade.Description</h4>
                     <p class="upgrade-cost">Цена: <span class="cost-value">@upgrade.Cost</span> очков</p>
                     <p>Прибыль: +@upgrade.Increment за клик</p>
-                    <button id="@upgrade.Id" class="upgrade-btn" data-cost="@upgrade.Cost" data-increment="@upgrade.Increment" @(Model.Score < upgrade.Cost ? "disabled" : "")>Купить</button>
+                    <button id="@upgrade.Id" class="upgrade-btn" data-cost="@upgrade.Cost" data-original-cost="@upgrade.Cost" data-increment="@upgrade.Increment" @(Model.Score < upgrade.Cost ? "disabled" : "")>Купить</button>
                     <p>Куплено: <span id="@(upgrade.Id)_count">@upgrade.Count</span></p>
                 </div>
             }
@@ -40,6 +40,10 @@
         <div>
             Очки за клик: <span id="pointsPerClick">@Model.ClickPower</span>
         </div>
+        <div>
+            Шанс критического клика: <span id="critChance">@Model.CritChance.ToString("F2")</span>%
+        </div>
+        <p id="criticalClickMessage" style="display: none;">CRITICAL HIT!</p>
     </div>
 </div>
 

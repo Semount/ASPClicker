@@ -6,8 +6,8 @@ namespace ASPClicker.Services
     {
         Task<BaseGame> GetOrCreateGame();
         Task SaveGame(BaseGame game);
-        Task ClickButton(BaseGame game);
-        void PurchaseUpgrade(BaseGame game, string upgradeId);
+        Task<bool> ClickButton(BaseGame game);
+        void PurchaseUpgrade(BaseGame game, string upgradeId, double discount);
         void PurchaseModification(BaseGame game, string modificationId);
     }
 }

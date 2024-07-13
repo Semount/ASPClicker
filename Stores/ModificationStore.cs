@@ -28,6 +28,8 @@ namespace ASPClicker.Stores
             {
                 game.Score -= modification.Cost;
                 game.ClickPowerPercentage += modification.ClickMultiplierPercentage;
+                game.Discount += modification.DiscountPercentage;
+                game.CritChance += modification.CriticalChance;
             }
         }
 
@@ -39,7 +41,7 @@ namespace ASPClicker.Stores
             {
                 Id = "mod1",
                 Cost = 100,
-                Description = "Скидка 10% на улучшение №1",
+                Description = "Скидка 10% на улучшения",
                 DiscountPercentage = 10,
                 ClickMultiplierPercentage = 0,
                 CriticalChance = 0
@@ -57,7 +59,7 @@ namespace ASPClicker.Stores
             {
                 Id = "mod3",
                 Cost = 300,
-                Description = "Шанс критического клика 5%",
+                Description = "Шанс критического клика 1%",
                 DiscountPercentage = 0,
                 ClickMultiplierPercentage = 0,
                 CriticalChance = 5
