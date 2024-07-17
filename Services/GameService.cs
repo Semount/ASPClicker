@@ -1,6 +1,5 @@
 ﻿using ASPClicker.Models;
 using ASPClicker.Stores;
-using System;
 
 namespace ASPClicker.Services
 {
@@ -25,25 +24,30 @@ namespace ASPClicker.Services
             await _gameStateService.SaveGame(game);
         }
 
-        public async Task<bool> ClickButton(BaseGame game)
+        public bool ClickButton(BaseGame game, string circleType)
         {
-            var clickPower = game.CalculateClickPower();
-            var isCritical = _random.NextDouble() < game.CritChance / 100;
-            game.Score += clickPower * (isCritical ? 2 : 1);
-            await SaveGame(game);
+            ICircle circle = circleType == "Yin" ? game.Yin : game.Yang;
+            var isCritical = _random.NextDouble() < circle.CritChance / 100;
+            circle.Points += circle.CalculateClickPower() * (isCritical ? 2 : 1);
+
             return isCritical;
         }
 
-        public void PurchaseUpgrade(BaseGame game, string upgradeId, double discount)
+        public void PurchaseYinUpgrade(BaseGame game, string upgradeId)
         {
-            UpgradeStore.PurchaseUpgrade(game, upgradeId, discount);
-            game.ClickPower = game.CalculateClickPower();
+            UpgradeStore.YinStore.PurchaseUpgrade(game.Yang, game.Yin, upgradeId, game.Yang.Discount);
+            //game.Yin.ClickPower = game.Yin.CalculateClickPower(); // Update ClickPower
+        }
+
+        public void PurchaseYangUpgrade(BaseGame game, string upgradeId)
+        {
+            UpgradeStore.YangStore.PurchaseUpgrade(game.Yin, game.Yang, upgradeId, game.Yin.Discount);
+            //game.Yang.ClickPower = game.Yang.CalculateClickPower(); // Update ClickPower
         }
 
         public void PurchaseModification(BaseGame game, string modificationId)
         {
             ModificationStore.PurchaseModification(game, modificationId);
-            game.ClickPower = game.CalculateClickPower();
         }
     }
 }

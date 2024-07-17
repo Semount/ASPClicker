@@ -2,64 +2,63 @@ body, html {
     margin: 0;
     padding: 0;
     height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #f0f0f0;
-    font-family: Arial, sans-serif;
-}
-
-.container {
-    display: flex;
     width: 100%;
-    height: 100%;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to right, white, black);
+    overflow: hidden;
 }
 
-.sidebar {
-    width: 500px;
-    padding: 20px;
-    border-right: 1px solid #ccc;
+.main-container {
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: flex-start;
-    background-color: #fff;
+    justify-content: space-evenly;
+    align-content: baseline;
+    align-items: stretch;
+    height: 100vh;
+    padding: 20px;
+    box-sizing: border-box;
 }
 
-.modification-area,
-.upgrade-area {
-    width: 45%;
+.yin-circle, .yang-circle, .yin-upgrades, .yang-upgrades, .modifications {
+    flex: 1;
+    margin: 0 10px;
+    max-width: 20%;
+    height: 100%;
+    overflow-y: auto;
+    background-color: rgba(249, 249, 249, 0.8);
+    padding: 20px;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
-.game-area {
-    flex-grow: 1;
+.yin-circle, .yang-circle {
     display: flex;
     flex-direction: column;
-    align-items: center;
     justify-content: center;
-    background-color: #f9f9f9;
+    align-items: center;
+    text-align: center;
 }
 
 .click-circle {
-    width: 200px;
-    height: 200px;
+    width: 150px;
+    height: 150px;
     border-radius: 50%;
     background-color: #ffcc00;
     cursor: pointer;
-    margin-top: 20px;
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: 24px;
     color: white;
     transition: transform 0.1s;
+    margin: 10px 0;
 }
 
     .click-circle:active {
         transform: scale(0.95);
     }
 
-.upgrade-card {
+.upgrade-card, .modification-card {
     border: 1px solid #ccc;
     border-radius: 8px;
     padding: 15px;
@@ -69,15 +68,16 @@ body, html {
     background-color: #fff;
 }
 
-    .upgrade-card h4 {
+
+    .upgrade-card h4, .modification-card h4 {
         margin: 0 0 10px 0;
     }
 
-    .upgrade-card p {
+    .upgrade-card p, .modification-card p {
         margin: 0 0 10px 0;
     }
 
-    .upgrade-card button {
+    .upgrade-card button, .modification-card button {
         width: 100%;
         padding: 10px;
         background-color: #007bff;
@@ -88,41 +88,7 @@ body, html {
         transition: background-color 0.3s;
     }
 
-        .upgrade-card button:disabled {
-            background-color: #ccc;
-            cursor: not-allowed;
-        }
-
-.modification-card {
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    padding: 15px;
-    margin-bottom: 15px;
-    width: 100%;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    background-color: #fff;
-}
-
-    .modification-card h4 {
-        margin: 0 0 10px 0;
-    }
-
-    .modification-card p {
-        margin: 0 0 10px 0;
-    }
-
-    .modification-card button {
-        width: 100%;
-        padding: 10px;
-        background-color: #007bff;
-        color: white;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        transition: background-color 0.3s;
-    }
-
-        .modification-card button:disabled {
+        .upgrade-card button:disabled, .modification-card button:disabled {
             background-color: #ccc;
             cursor: not-allowed;
         }
@@ -131,6 +97,14 @@ body, html {
     position: absolute;
     font-size: 24px;
     color: #007bff;
+    pointer-events: none;
+    animation: fadeOut 1s ease-out forwards;
+}
+
+.critical-click-popup {
+    position: absolute;
+    font-size: 24px;
+    color: red;
     pointer-events: none;
     animation: fadeOut 1s ease-out forwards;
 }

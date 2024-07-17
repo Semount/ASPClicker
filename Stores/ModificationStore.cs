@@ -24,47 +24,59 @@ namespace ASPClicker.Stores
         public static void PurchaseModification(BaseGame game, string id)
         {
             var modification = GetModification(id);
-            if (modification != null && game.Score >= modification.Cost)
+            if (modification != null && game.Yang.Points >= modification.YangCost && game.Yin.Points >= modification.YinCost)
             {
-                game.Score -= modification.Cost;
-                game.ClickPowerPercentage += modification.ClickMultiplierPercentage;
-                game.Discount += modification.DiscountPercentage;
-                game.CritChance += modification.CriticalChance;
+                game.Yang.Points -= modification.YangCost;
+                game.Yin.Points -= modification.YinCost;
+
+                // Apply modification effects to Yin and Yang circles
+                ApplyModificationToCircle(modification, game.Yin);
+                ApplyModificationToCircle(modification, game.Yang);
             }
+        }
+
+        private static void ApplyModificationToCircle(Modification modification, ICircle circle)
+        {
+            circle.CritChance += modification.CriticalChance;
+            circle.Discount += modification.DiscountPercentage;
+            circle.ClickPowerPercentage += modification.ClickMultiplierPercentage;
         }
 
         private static List<Modification> GetDefaultModifications()
         {
             return new List<Modification>
-        {
-            new Modification
             {
-                Id = "mod1",
-                Cost = 100,
-                Description = "Скидка 10% на улучшения",
-                DiscountPercentage = 10,
-                ClickMultiplierPercentage = 0,
-                CriticalChance = 0
-            },
-            new Modification
-            {
-                Id = "mod2",
-                Cost = 200,
-                Description = "Увеличение силы клика на 5%",
-                DiscountPercentage = 0,
-                ClickMultiplierPercentage = 5,
-                CriticalChance = 0
-            },
-            new Modification
-            {
-                Id = "mod3",
-                Cost = 300,
-                Description = "Шанс критического клика 1%",
-                DiscountPercentage = 0,
-                ClickMultiplierPercentage = 0,
-                CriticalChance = 5
-            }
-        };
+                new Modification
+                {
+                    Id = "mod1",
+                    YangCost = 100,
+                    YinCost = 100,
+                    Description = "Discount 1% on upgrades",
+                    DiscountPercentage = 50,
+                    ClickMultiplierPercentage = 0,
+                    CriticalChance = 0
+                },
+                new Modification
+                {
+                    Id = "mod2",
+                    YangCost = 100,
+                    YinCost = 100,
+                    Description = "Increase click power by 5%",
+                    DiscountPercentage = 0,
+                    ClickMultiplierPercentage = 5,
+                    CriticalChance = 0
+                },
+                new Modification
+                {
+                    Id = "mod3",
+                    YangCost = 100,
+                    YinCost = 100,
+                    Description = "Increase critical chance by 1%",
+                    DiscountPercentage = 0,
+                    ClickMultiplierPercentage = 0,
+                    CriticalChance = 1
+                }
+            };
         }
     }
 }
