@@ -2,25 +2,27 @@
 
 <div class="main-container">
     <div class="yin-circle">
-        <div>Очки Инь: <span id="scoreYinDisplay">@Model.Yin.Points</span></div>
+        <div>
+            Очки Инь: <span id="scoreYinDisplay" class="stat-value">@Model.Yin.Points</span>
+        </div>
         <div class="click-circle" id="clickYinCircle">Инь</div>
         <div>
-            Очки за клик Инь: <span id="pointsPerClickYin">@Model.Yin.CalculateClickPower()</span>
+            Очки за клик Инь: <span id="pointsPerClickYin" class="stat-value">@Model.Yin.CalculateClickPower()</span>
         </div>
         <div>
-            Шанс критического клика Инь: <span id="critChanceYin">@Model.Yin.CritChance.ToString("F2")</span>%
+            Шанс критического клика Инь: <span id="critChanceYin" class="stat-value">@Model.Yin.CritChance.ToString("F2")</span>%
         </div>
     </div>
 
-    <div class="yin-upgrades">
-        <h3>Улучшения для Инь (покупаются за очки Янь)</h3>
-        @foreach (var upgrade in Model.Yin.Upgrades)
+    <div class="yang-upgrades">
+        <h3>Улучшения для Янь (покупаются за очки Инь)</h3>
+        @foreach (var upgrade in Model.Yang.Upgrades)
         {
             <div class="upgrade-card">
                 <h4>@upgrade.Description</h4>
-                <p class="upgrade-cost">Цена: <span class="cost-value">@upgrade.Cost</span> очков Янь</p>
-                <p>Прибыль: +@upgrade.Increment за клик для Инь</p>
-                <button id="@upgrade.Id" class="upgrade-btn yin-upgrade-btn"
+                <p class="upgrade-cost">Цена: <span class="cost-value">@upgrade.Cost</span> очков Инь</p>
+                <p>Прибыль: +@upgrade.Increment за клик для Янь</p>
+                <button id="@upgrade.Id" class="upgrade-btn yang-upgrade-btn"
                         data-cost="@upgrade.Cost"
                         data-original-cost="@upgrade.Cost"
                         data-increment="@upgrade.Increment">
@@ -45,15 +47,15 @@
         }
     </div>
 
-    <div class="yang-upgrades">
-        <h3>Улучшения для Янь (покупаются за очки Инь)</h3>
-        @foreach (var upgrade in Model.Yang.Upgrades)
+    <div class="yin-upgrades">
+        <h3>Улучшения для Инь (покупаются за очки Янь)</h3>
+        @foreach (var upgrade in Model.Yin.Upgrades)
         {
             <div class="upgrade-card">
                 <h4>@upgrade.Description</h4>
-                <p class="upgrade-cost">Цена: <span class="cost-value">@upgrade.Cost</span> очков Инь</p>
-                <p>Прибыль: +@upgrade.Increment за клик для Янь</p>
-                <button id="@upgrade.Id" class="upgrade-btn yang-upgrade-btn"
+                <p class="upgrade-cost">Цена: <span class="cost-value">@upgrade.Cost</span> очков Янь</p>
+                <p>Прибыль: +@upgrade.Increment за клик для Инь</p>
+                <button id="@upgrade.Id" class="upgrade-btn yin-upgrade-btn"
                         data-cost="@upgrade.Cost"
                         data-original-cost="@upgrade.Cost"
                         data-increment="@upgrade.Increment">
@@ -63,15 +65,17 @@
             </div>
         }
     </div>
-
+    
     <div class="yang-circle">
-        <div>Очки Янь: <span id="scoreYangDisplay">@Model.Yang.Points</span></div>
+        <div>
+            Очки Янь: <span id="scoreYangDisplay" class="stat-value">@Model.Yang.Points</span>
+        </div>
         <div class="click-circle" id="clickYangCircle">Янь</div>
         <div>
-            Очки за клик Янь: <span id="pointsPerClickYang">@Model.Yang.CalculateClickPower()</span>
+            Очки за клик Янь: <span id="pointsPerClickYang" class="stat-value">@Model.Yang.CalculateClickPower()</span>
         </div>
         <div>
-            Шанс критического клика Янь: <span id="critChanceYang">@Model.Yang.CritChance.ToString("F2")</span>%
+            Шанс критического клика Янь: <span id="critChanceYang" class="stat-value">@Model.Yang.CritChance.ToString("F2")</span>%
         </div>
     </div>
 </div>

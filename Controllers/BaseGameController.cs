@@ -32,7 +32,6 @@ namespace ASPClicker.Controllers
             HttpContext.Session.SetDouble($"{circleType}ClickPower", circle.ClickPower);
             HttpContext.Session.SetDouble($"{circleType}CritChance", circle.CritChance);
 
-
             return Json(new
             {
                 score = circle.Points,

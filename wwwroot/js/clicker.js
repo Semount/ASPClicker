@@ -25,17 +25,24 @@
         });
     }
 
+    function calculateUpgradeCost(baseCost, count, discount) {
+        var newCost = baseCost * Math.pow(1.15, count); // Базовая цена + 15% за каждое улучшение
+        return newCost * (1 - discount / 100); // Применяем скидку
+    }
+
     function applyDiscountToUpgrades(discountYin, discountYang) {
         $('.yin-upgrade-btn').each(function () {
-            var originalCost = parseFloat($(this).data('original-cost'));
-            var discountedCost = originalCost * (1 - discountYang / 100);
+            var baseCost = parseFloat($(this).data('base-cost'));
+            var count = parseInt($(this).data('count'), 10);
+            var discountedCost = calculateUpgradeCost(baseCost, count, discountYang);
             $(this).data('cost', discountedCost);
             $(this).siblings('.upgrade-cost').find('.cost-value').text(discountedCost.toFixed(2));
         });
 
         $('.yang-upgrade-btn').each(function () {
-            var originalCost = parseFloat($(this).data('original-cost'));
-            var discountedCost = originalCost * (1 - discountYin / 100);
+            var baseCost = parseFloat($(this).data('base-cost'));
+            var count = parseInt($(this).data('count'), 10);
+            var discountedCost = calculateUpgradeCost(baseCost, count, discountYin);
             $(this).data('cost', discountedCost);
             $(this).siblings('.upgrade-cost').find('.cost-value').text(discountedCost.toFixed(2));
         });
@@ -137,6 +144,7 @@
                 var countElement = $('#' + data.upgradeId + '_count');
                 countElement.text(data.count);
 
+                button.data('count', data.count);
                 button.data('cost', data.cost);
                 button.siblings('.upgrade-cost').find('.cost-value').text(data.cost.toFixed(2));
 
@@ -165,6 +173,7 @@
                 var countElement = $('#' + data.upgradeId + '_count');
                 countElement.text(data.count);
 
+                button.data('count', data.count);
                 button.data('cost', data.cost);
                 button.siblings('.upgrade-cost').find('.cost-value').text(data.cost.toFixed(2));
 
@@ -201,6 +210,19 @@
                 console.error("Error in AJAX request: " + status + ", " + error);
             }
         });
+    });
+
+    // Инициализация базовой стоимости апгрейдов
+    $('.yin-upgrade-btn').each(function () {
+        var baseCost = parseFloat($(this).siblings('.upgrade-cost').find('.cost-value').text());
+        $(this).data('base-cost', baseCost);
+        $(this).data('count', parseInt($(this).siblings('span').text(), 10) || 0);
+    });
+
+    $('.yang-upgrade-btn').each(function () {
+        var baseCost = parseFloat($(this).siblings('.upgrade-cost').find('.cost-value').text());
+        $(this).data('base-cost', baseCost);
+        $(this).data('count', parseInt($(this).siblings('span').text(), 10) || 0);
     });
 
     updateUpgradeButtons();

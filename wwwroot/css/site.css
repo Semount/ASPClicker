@@ -11,7 +11,7 @@ body, html {
 .main-container {
     display: flex;
     justify-content: space-evenly;
-    align-content: baseline;
+    align-content: stretch;
     align-items: stretch;
     height: 100vh;
     padding: 20px;
@@ -37,6 +37,7 @@ body, html {
     justify-content: center;
     align-items: center;
     text-align: center;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
 .click-circle {
@@ -58,16 +59,43 @@ body, html {
         transform: scale(0.95);
     }
 
+.yin-circle .click-circle {
+    background-color: #fff; /* белый круг дл€ »нь */
+    color: #333;
+}
+
+.yang-circle .click-circle {
+    background-color: #000; /* чЄрный круг дл€ янь */
+}
+
+.yin-upgrades, .yang-upgrades, .modifications {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
 .upgrade-card, .modification-card {
     border: 1px solid #ccc;
     border-radius: 8px;
-    padding: 15px;
+    padding: 10px;
     margin-bottom: 15px;
     width: 100%;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     background-color: #fff;
 }
 
+.click-circle, .upgrade-btn, .modification-btn {
+    user-select: none; /* запретить выделение текста */
+    -webkit-user-select: none; /* дл€ Safari и Chrome */
+    -moz-user-select: none; /* дл€ Firefox */
+    -ms-user-select: none; /* дл€ IE и Edge */
+}
+
+.stat-value {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+}
 
     .upgrade-card h4, .modification-card h4 {
         margin: 0 0 10px 0;

@@ -52,7 +52,7 @@ namespace ASPClicker.Stores
                     YangCost = 100,
                     YinCost = 100,
                     Description = "Discount 1% on upgrades",
-                    DiscountPercentage = 50,
+                    DiscountPercentage = 1,
                     ClickMultiplierPercentage = 0,
                     CriticalChance = 0
                 },

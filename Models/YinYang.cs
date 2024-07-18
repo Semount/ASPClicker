@@ -12,7 +12,7 @@
 
         public double CalculateClickPower()
         {
-            return (100 + ClickMultiplier) * (1 + ClickPowerPercentage * 0.01);
+            return (1 + ClickMultiplier) * (1 + ClickPowerPercentage * 0.01);
         }
 
         public YinCircle()
@@ -33,7 +33,7 @@
 
         public double CalculateClickPower()
         {
-            return (100 + ClickMultiplier) * (1 + ClickPowerPercentage * 0.01);
+            return  ClickMultiplier * (1 + ClickPowerPercentage * 0.01);
         }
 
         public YangCircle()
